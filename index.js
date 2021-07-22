@@ -102,6 +102,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
         reaction.users.remove(user);
 
         reaction.message.guild.channels.create(`ticket-${user.username}`, {
+            parentID : '852385854952701982',
             permissionOverwrites: [
                 {
                     id: user.id,
