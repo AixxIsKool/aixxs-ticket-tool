@@ -102,6 +102,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
         reaction.users.remove(user);
 
         reaction.message.guild.channels.create(`ticket-${user.username}`, {
+            type: 'text',
             parent : '852385854952701982',
             permissionOverwrites: [
                 {
@@ -117,7 +118,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
                     allow: ["SEND_MESSAGES", "VIEW_CHANNEL"]
                 }
             ],
-            type: 'text'
+            
         }).then(async channel => {
             channel.send(`<@${user.id}> Welcome! Our Support Team Will be with you shortly!`, new Discord.MessageEmbed().setTitle("Welcome to your ticket!").setDescription("We will be with you shortly").setColor("03a5fc"))
         })
