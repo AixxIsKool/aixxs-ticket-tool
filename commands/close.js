@@ -1,13 +1,13 @@
 const { Message, Client, MessageAttachment} = require('discord.js')
 const fs = require('fs')
 
-module.exports = {
+module.exports.execute = {
     name : 'close',
     /**
      * @param {Client} client
      * @param {Message} message
      */
-    run : async(client, message) => {
+    execute : async(client, message) => {
         if(message.channel.parentID !== '852385854952701982') return message.channel.send('You can only use this command in a ticket!');
         const transcriptChannel = message.guild.channels.cache.get('857418255366357022')
         message.channel.send('Deleting ticket in 5 seconds.....')

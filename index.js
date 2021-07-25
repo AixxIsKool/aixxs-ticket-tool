@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const client = new Discord.Client({partials: ["MESSAGE", "USER", "REACTION"]});
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const enmap = require('enmap');
 const {token, prefix} = require('./config.json');
 const fs = require('fs');
@@ -19,6 +19,7 @@ const settings = new enmap({
     cloneLevel: "deep",
     fetchAll: true
 });
+// Command Handler
 client.on('message', message =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -27,8 +28,16 @@ client.on('message', message =>{
 
     if(command === 'rename'){
         client.commands.get('rename').execute(message, args);
-    } 
+    }
 });
+client.on("message", message => {
+    if(message.member.hasPermission(['ADMINISTRATOR'])) return message.channel.send(`:x: You Do Not Have the Permissions to Run That Command!`)
+    if (message.content.toLowerCase() == "shutdown") { // Note that this is an example and anyone can use this command.
+        message.channel.send("Shutting down...").then(() => {
+            client.destroy();
+        })
+    }
+})
 client.on('ready', () => {
     console.log(client.user.username + " has logged in.");
 });
@@ -36,7 +45,7 @@ client.on('ready', () => {
 let y = process.openStdin()
     y.addListener("data", res => {
         let x = res.toString().trim()
-        client.channels.cache.get('867530245522980904').send(x);
+        client.channels.cache.get('849108755869597756').send(x);
 });
 module.exports = {
     name: 'rename',
@@ -123,6 +132,11 @@ client.on('messageReactionAdd', async (reaction, user) => {
             
         }).then(async channel => {
             channel.send(`<@${user.id}> Welcome! Our Support Team Will be with you shortly!`, new Discord.MessageEmbed().setTitle("Welcome to your ticket!").setDescription("We will be with you shortly").setColor("03a5fc"))
+            channel.send(`Welcome!`)
+            
+            sent.react('🚫');
+            
+            
         })
     }
 });
