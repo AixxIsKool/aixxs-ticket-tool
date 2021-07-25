@@ -41,6 +41,7 @@ module.exports = {
     name: 'rename',
     description: 'renames a channel!',
     execute(message, args) {
+        message.delete(1000);
         if(!message.member.hasRole("MANAGE_ROLES")) return message.channel.send(`:x: You Do Not Have the Permissions to Run That Command!`)
  
         const name = args.join(" ")
