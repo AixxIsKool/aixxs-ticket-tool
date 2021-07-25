@@ -80,7 +80,8 @@ client.on('message', async message => {
     }
     
     if(command == "delete") {
-        if(!message.channel.name.includes("ticket-")) return message.channel.send("You cannot use that here!")
+        if(!message.member.hasPermission("MANAGE_MESSAGES"));
+         if(!message.channel.name.includes("ticket-")) return message.channel.send("You cannot use that here!")
         for (let i = 1; i <= 5; i++) {
             setTimeout(() => console.log(`#${i}`), 5000);
           }
