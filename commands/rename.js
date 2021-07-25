@@ -9,8 +9,9 @@ module.exports = {
         const name = args.join(" ")
 
         if (!name) return message.channel.send(`:x: Missing Arguements!`)
-
+        message.delete(1000);
         message.channel.setName(name)
         message.channel.send(`Successfully set the name of the channel to: **${name}**`)
+        
     }
 }

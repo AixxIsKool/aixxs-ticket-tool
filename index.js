@@ -101,7 +101,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
     if(reaction.message.id == ticketid && reaction.emoji.name == '🎫') {
         reaction.users.remove(user);
 
-        reaction.message.guild.channels.create(`ticket-${user.username}`, {
+        reaction.message.guild.channels.create(`ticket-${user.username}`,  {
             type: 'text',
             parent : '852385854952701982',
             permissionOverwrites: [
