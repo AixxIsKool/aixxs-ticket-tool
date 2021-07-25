@@ -3,6 +3,7 @@ const client = new Discord.Client({partials: ["MESSAGE", "USER", "REACTION"]});
 const enmap = require('enmap');
 const {token, prefix} = require('./config.json');
 const fs = require('fs');
+require('discord-buttons')(client);
 
 client.commands = new Discord.Collection();
 
@@ -41,7 +42,6 @@ module.exports = {
     name: 'rename',
     description: 'renames a channel!',
     execute(message, args) {
-        message.delete(1000);
         if(!message.member.hasRole("MANAGE_ROLES")) return message.channel.send(`:x: You Do Not Have the Permissions to Run That Command!`)
  
         const name = args.join(" ")
