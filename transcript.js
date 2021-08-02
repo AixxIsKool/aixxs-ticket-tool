@@ -125,7 +125,7 @@ module.exports = function (client, cmd, msglimit) {
         temporarymsg.edit(new MessageEmbed().setAuthor("ERROR! Transcript is to big, to be sent into the Channel!", message.member.user.displayAvatarURL({ dynamic: true })))
         fs.unlinkSync(`./transcript.docx`) //delete the docx
       }
-      message.guild.channels.cache.get("871792121269612584").send(new Discord.MessageEmbed().setTitle(`${message.author.tag} has used the transcript command. Ticket has been transcripted.`).setColor("bda404"))
+      message.guild.channels.cache.get("871792121269612584").send(new MessageEmbed().setTitle(`${message.author.tag} has used the transcript command. Ticket has been transcripted.`).setColor("bda404"))
     })
     // Async call to generate the output file:
     docx.generate(out)
