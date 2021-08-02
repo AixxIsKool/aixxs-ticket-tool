@@ -25,42 +25,101 @@ client.on('message', message =>{
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
-
+ 
     if(command === 'rename'){
         client.commands.get('rename').execute(message, args);
-    }
+    } else if(command === 'close')
+        client.commands.get('close').execute(message, args);
+        else if(command === 'commands')
+        client.commands.get('commands').execute(message, args);
 });
 client.on("message", message => {
-    if(message.member.hasPermission(['ADMINISTRATOR'])) return message.channel.send(`:x: You Do Not Have the Permissions to Run That Command!`)
+    if(message.member.hasPermission(['ADMINISTRATOR']))
     if (message.content.toLowerCase() == "shutdown") { // Note that this is an example and anyone can use this command.
         message.channel.send("Shutting down...").then(() => {
             client.destroy();
         })
     }
 })
+
+
+
+
+
+// Console / Going Online
+const activities_list = [
+    "Make a ticket if you have any questions! discord.io/aixxscustoms",
+    "Making sure no one is breaking the rules! discord.io/aixxscustoms",
+    "Please read the rules! https://discord.io/aixxscustoms",
+    "Making a cake. Wait I can't do that.😟 https://discord.io/aixxscustoms"
+]; // creates an arraylist containing phrases you want your bot to switch through.
+
 client.on('ready', () => {
+    setInterval(() => {
+        const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // generates a random number between 1 and the length of the activities array list (in this case 5).
+        client.user.setActivity(activities_list[index], { type: 'WATCHING' }); // sets bot's activities to one of the phrases in the arraylist.
+    }, 5000); // Runs this every 10 seconds.
     console.log(client.user.username + " has logged in.");
+
+
 });
+
+
+
+
+
+
 // Bot Chatter
 let y = process.openStdin()
     y.addListener("data", res => {
         let x = res.toString().trim()
         client.channels.cache.get('849108755869597756').send(x);
 });
-module.exports = {
-    name: 'rename',
-    description: 'renames a channel!',
-    execute(message, args) {
-        if(!message.member.hasRole("MANAGE_ROLES")) return message.channel.send(`:x: You Do Not Have the Permissions to Run That Command!`)
- 
-        const name = args.join(" ")
- 
-        if (!name) return message.channel.send(`:x: Missing Arguements!`)
- 
-        message.channel.setName(name)
-        message.channel.send(`Successfully set the name of the channel to **${name}**`)
+
+// Clear Command
+client.on('message', async (message) => {
+    if (
+      message.content.toLowerCase().startsWith(prefix + 'clear') ||
+      message.content.toLowerCase().startsWith(prefix + 'c ')
+    ) {
+      if (!message.member.hasPermission('MANAGE_MESSAGES'))
+        return message.channel.send("You cant use this command since you're missing `manage_messages` perm");
+      if (!isNaN(message.content.split(' ')[1])) {
+        let amount = 0;
+        if (message.content.split(' ')[1] === '1' || message.content.split(' ')[1] === '0') {
+          amount = 1;
+        } else {
+          amount = message.content.split(' ')[1];
+          if (amount > 100) {
+            amount = 100;
+          }
+        }
+        await message.channel.bulkDelete(amount, true).then((_message) => {
+          message.channel.send(`Bot cleared \`${_message.size}\` messages :broom:`).then((sent) => {
+            setTimeout(function () {
+              sent.delete();
+            }, 2500);
+          });
+        });
+      } else {
+        message.channel.send('enter the amount of messages that you would like to clear').then((sent) => {
+          setTimeout(function () {
+            sent.delete();
+          }, 2500);
+        });
+      }
+    } else {
+      if (message.content.toLowerCase() === prefix + 'help clear') {
+        const newEmbed = new Discord.MessageEmbed().setColor('#00B2B2').setTitle('**Clear Help**');
+        newEmbed
+          .setDescription('This command clears messages for example `.clear 5` or `.c 5`.')
+          .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL())
+          .setTimestamp();
+        message.channel.send(newEmbed);
+      }
+      
     }
-}
+  });
 
 client.on('message', async message => {
     if(message.author.bot) return;
@@ -91,10 +150,10 @@ client.on('message', async message => {
     if(command == "delete") {
         if(!message.member.hasPermission("MANAGE_MESSAGES"));
          if(!message.channel.name.includes("ticket-")) return message.channel.send("You cannot use that here!")
-        for (let i = 1; i <= 5; i++) {
-            setTimeout(() => console.log(`#${i}`), 5000);
-          }
-        message.channel.delete();
+        message.channel.send(new Discord.MessageEmbed().setTitle(`Ticket is being deleted in **5 Seconds** by ${message.author.tag}.`).setColor("03a5fc")),
+        setTimeout(function(){ 
+            message.channel.delete()
+         }, 5000);
     }
 });
 
@@ -134,7 +193,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
             channel.send(`<@${user.id}> Welcome! Our Support Team Will be with you shortly!`, new Discord.MessageEmbed().setTitle("Welcome to your ticket!").setDescription("We will be with you shortly").setColor("03a5fc"))
             channel.send(`Welcome!`)
             
-            sent.react('🚫');
+            
             
             
         })
