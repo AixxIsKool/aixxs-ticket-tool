@@ -14,7 +14,7 @@ module.exports = {
         
         message.channel.setName(`ticket-${name}`)
         message.channel.send(`Successfully set the name of the channel to: **${name}**`)
-        .then(m => m.delete({timeout: 1250}));
+        message.delete();
         
     }
 }
