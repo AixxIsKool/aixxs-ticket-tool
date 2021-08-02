@@ -5,6 +5,8 @@ const {token, prefix} = require('./config.json');
 const fs = require('fs');
 require('discord-buttons')(client);
 
+
+
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -26,12 +28,14 @@ client.on('message', message =>{
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
  
+
     if(command === 'rename'){
         client.commands.get('rename').execute(message, args);
-    } else if(command === 'close')
-        client.commands.get('close').execute(message, args);
+     } else if(command === 'close')
+        client.commands.get('close').execute(message, args); 
         else if(command === 'commands')
         client.commands.get('commands').execute(message, args);
+    
 });
 client.on("message", message => {
     if(message.member.hasPermission(['ADMINISTRATOR']))
@@ -154,6 +158,7 @@ client.on('message', async message => {
         setTimeout(function(){ 
             message.channel.delete()
          }, 5000);
+         message.guild.channels.cache.get("871792121269612584").send(new Discord.MessageEmbed().setTitle(`${message.author.tag} has used the delete command. Channel has been deleted.`).setColor("ff0400"))
     }
 });
 
@@ -199,5 +204,9 @@ client.on('messageReactionAdd', async (reaction, user) => {
         })
     }
 });
+//load the transcript module
+const transcript = require("./transcript")
+transcript(client, "-transcript", 500)  
+//transcript(client, "CMD", "MAXIMUM msgs") //minimum = 100 
 
 client.login(token);
