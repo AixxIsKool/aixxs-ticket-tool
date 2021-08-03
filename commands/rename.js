@@ -1,6 +1,13 @@
 const Discord = require("discord.js")
 const client = new Discord.Client
-
+const description = {
+    name: "rename",
+    filename: "rename.js",
+    version: "1.2"
+      
+  };
+    
+    console.log(` :: ⏹  Module: ${description.name} | Loaded version ${description.version} from ("${description.filename}")`)
 module.exports = {
     name: 'rename',
     description: 'renames a channel!',

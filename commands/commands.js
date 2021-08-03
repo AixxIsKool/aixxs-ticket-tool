@@ -1,5 +1,12 @@
 const Discord = require("discord.js")
-
+const description = {
+    name: "command",
+    filename: "commands.js",
+    version: "1.0"
+      
+  };
+    
+    console.log(` :: 🟧 Module: ${description.name} | Loaded version ${description.version} from ("${description.filename}")`)
 module.exports = {
     name: 'commands',
     
@@ -9,7 +16,6 @@ module.exports = {
 
 //Let's create Embed Message
 //But first, Let's create Variable message 
-message.channel.send('<@849503393806549033>')
 message.guild.channels.cache.get("871792121269612584").send(new Discord.MessageEmbed().setTitle(`${message.author.tag} has used the help command. Command list has been listed..`).setColor("0549a8"))
 message.channel.send(new Discord.MessageEmbed().setTitle("Ticket Bot Commands").setDescription(`**-rename**,
  **-close** (Closes the ticket)

@@ -63,8 +63,10 @@ client.on('ready', () => {
         const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // generates a random number between 1 and the length of the activities array list (in this case 5).
         client.user.setActivity(activities_list[index], { type: 'WATCHING' }); // sets bot's activities to one of the phrases in the arraylist.
     }, 5000); // Runs this every 10 seconds.
-    console.log(client.user.username + " has logged in.");
-
+    console.log(` :: 🟫 Module: clear | Loaded version v1.0 from ("clear.js")`);
+    console.log(client.user.username + " has logged in. 🟥");
+    console.log(client.user.username + " has loaded commands. 🟨")
+    console.log(client.user.username + " is ready. 🟩")
 
 });
 
@@ -120,6 +122,7 @@ client.on('message', async (message) => {
           .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL())
           .setTimestamp();
         message.channel.send(newEmbed);
+        
       }
       
     }
