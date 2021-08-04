@@ -35,6 +35,8 @@ client.on('message', message =>{
         client.commands.get('close').execute(message, args); 
         else if(command === 'commands')
         client.commands.get('commands').execute(message, args);
+        else if(command === 'warn')
+        client.commands.get('warn').execute(message, args);
     
 });
 client.on("message", message => {
@@ -46,7 +48,7 @@ client.on("message", message => {
     }
 })
 
-
+ 
 
 
 
@@ -63,6 +65,7 @@ client.on('ready', () => {
         const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // generates a random number between 1 and the length of the activities array list (in this case 5).
         client.user.setActivity(activities_list[index], { type: 'WATCHING' }); // sets bot's activities to one of the phrases in the arraylist.
     }, 5000); // Runs this every 10 seconds.
+    console.log(` :: 🟪 Module: report | Loaded version v1.0 from ("report.js")`);
     console.log(` :: 🟫 Module: clear | Loaded version v1.0 from ("clear.js")`);
     console.log(client.user.username + " has logged in. 🟥");
     console.log(client.user.username + " has loaded commands. 🟨")
@@ -70,7 +73,23 @@ client.on('ready', () => {
 
 });
 
-
+client.on('message', message => {
+  if (message.content.startsWith(prefix + 'report')) {
+      if (message.author.bot) return;
+      message.channel.send(`${message.author}` + ' Our Admin(s) Have Received Your Report')
+      const channel = client.channels.cache.get('849108767005736980')
+      const roles = client.roles.cache.get('849108728564547614')
+      channel.send(`${roles} report has been filed.`)
+      
+      const ReportMessage = message.content.slice(7).trim();
+      const ReportEmbed = new Discord.MessageEmbed()
+          .setColor('#b700ff')
+          .setTitle(ReportMessage)
+      channel.send(`||${message.author}||` + "**'s Report : - **")
+      channel.send(ReportEmbed)
+      
+  }
+});
 
 
 
@@ -206,7 +225,9 @@ client.on('messageReactionAdd', async (reaction, user) => {
             
         })
     }
+    
 });
+
 //load the transcript module
 const transcript = require("./transcript")
 transcript(client, "-transcript", 500)  
