@@ -81,7 +81,7 @@ module.exports = function (client, cmd, msglimit) {
       pObj.options.align = 'left'; //Also 'right' or 'justify'.
       //Username and Date
       pObj.addText(`${msg.author.tag}`, { font_face: 'Arial', color: '3c5c63', bold: true, font_size: 14 });
-      pObj.addText(`  ❤️  ${msg.createdAt.toDateString()}  ❤️  ${msg.createdAt.toLocaleTimeString()}`, { font_face: 'Arial', color: '3c5c63', bold: true, font_size: 14 }); //
+      pObj.addText(`  |  ${msg.createdAt.toDateString()}  |  ${msg.createdAt.toLocaleTimeString()}`, { font_face: 'Arial', color: '3c5c63', bold: true, font_size: 14 }); //
       //LINEBREAK
       pObj.addLineBreak()
       //message of user     
@@ -117,6 +117,7 @@ module.exports = function (client, cmd, msglimit) {
         const attachment = new MessageAttachment(buffer, `./transcript.docx`); //send it as an attachment
         //send the Transcript Into the Channel and then Deleting it again from the FOLDER
         message.channel.send(attachment).then(del => { //after sending it delete the file and edit the temp message to an approvement
+          client.channels.cache.get('857418255366357022').send(new MessageEmbed().setTitle(`Channel transcripted: ${message.channel.name}. // Channel ID: ${message.channel.id}`).setDescription(`Transcripted by: ${message.author.tag} // ID: ${message.author.id}`))
           client.channels.cache.get('857418255366357022').send(attachment)
           temporarymsg.edit(new MessageEmbed().setAuthor(`Here is the Transcript! Transcripted by ${message.author.username}!`, message.member.user.displayAvatarURL({ dynamic: true })))
           fs.unlinkSync(`./transcript.docx`)
@@ -125,7 +126,7 @@ module.exports = function (client, cmd, msglimit) {
         temporarymsg.edit(new MessageEmbed().setAuthor("ERROR! Transcript is to big, to be sent into the Channel!", message.member.user.displayAvatarURL({ dynamic: true })))
         fs.unlinkSync(`./transcript.docx`) //delete the docx
       }
-      message.guild.channels.cache.get("871792121269612584").send(new MessageEmbed().setTitle(`${message.author.tag} has used the transcript command. Ticket has been transcripted.`).setColor("bda404"))
+      message.guild.channels.cache.get("871792121269612584").send(new MessageEmbed().setTitle(`${message.author.tag} has used the transcript command. ${message.channel.name} has been transcripted.`).setColor("bda404"))
     })
     // Async call to generate the output file:
     docx.generate(out)

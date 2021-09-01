@@ -3,7 +3,8 @@ const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 const enmap = require('enmap');
 const {token, prefix} = require('./config.json');
 const fs = require('fs');
-require('discord-buttons')(client);
+const { MessageEmbed } = require('discord.js');
+
 
 
 
@@ -37,6 +38,8 @@ client.on('message', message =>{
         client.commands.get('commands').execute(message, args);
         else if(command === 'warn')
         client.commands.get('warn').execute(message, args);
+        else if(command === 'ticket')
+        client.commands.get('ticket').execute(message, args);
     
 });
 client.on("message", message => {
@@ -52,54 +55,47 @@ client.on("message", message => {
 
 
 
+
+
 // Console / Going Online
 const activities_list = [
-    "Make a ticket if you have any questions! discord.io/aixxscustoms",
-    "Making sure no one is breaking the rules! discord.io/aixxscustoms",
-    "Please read the rules! https://discord.io/aixxscustoms",
-    "Making a cake. Wait I can't do that.😟 https://discord.io/aixxscustoms"
+    "Castle Designs has been rebranded to Nordic Designs. discord.gg/MqRPPWF",
+    `"Our main focus is our customers happiness. We wish to see others enjoying the products made here at Nordic Development!" - Nordic |    discord.gg/MqRPPWF  `,
+    "Baking a cake... wait I can't do that. 😟",
+    "Make sure to read the rules! discord.gg/MqRPPWF"
 ]; // creates an arraylist containing phrases you want your bot to switch through.
+
 
 client.on('ready', () => {
     setInterval(() => {
+        
         const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // generates a random number between 1 and the length of the activities array list (in this case 5).
         client.user.setActivity(activities_list[index], { type: 'WATCHING' }); // sets bot's activities to one of the phrases in the arraylist.
     }, 5000); // Runs this every 10 seconds.
     console.log(` :: 🟪 Module: report | Loaded version v1.0 from ("report.js")`);
     console.log(` :: 🟫 Module: clear | Loaded version v1.0 from ("clear.js")`);
+    console.log(` :: 🟦 Module: ticket-log | Loaded version v1.0 from ("ticket-log.js")`);
     console.log(client.user.username + " has logged in. 🟥");
     console.log(client.user.username + " has loaded commands. 🟨")
     console.log(client.user.username + " is ready. 🟩")
-
-});
-
-client.on('message', message => {
-  if (message.content.startsWith(prefix + 'report')) {
-      if (message.author.bot) return;
-      message.channel.send(`${message.author}` + ' Our Admin(s) Have Received Your Report')
-      const channel = client.channels.cache.get('849108767005736980')
-      const roles = client.roles.cache.get('849108728564547614')
-      channel.send(`${roles} report has been filed.`)
-      
-      const ReportMessage = message.content.slice(7).trim();
-      const ReportEmbed = new Discord.MessageEmbed()
-          .setColor('#b700ff')
-          .setTitle(ReportMessage)
-      channel.send(`||${message.author}||` + "**'s Report : - **")
-      channel.send(ReportEmbed)
-      
-  }
-});
+    
+    const channel = client.channels.cache.get("880319273459933215");
+    if (!channel) return console.error("The channel does not exist!");
+    channel.join().then(connection => {
+      // Yay, it worked!
+      console.log(`Successfully connected to ${channel.name} VC. 🎤`);
+    }).catch(e => {
+      // Oh no, it errored! Let's log it to console :)
+      console.error(e);
+    });
+  });
+  
 
 
 
 
-// Bot Chatter
-let y = process.openStdin()
-    y.addListener("data", res => {
-        let x = res.toString().trim()
-        client.channels.cache.get('849108755869597756').send(x);
-});
+// Voice Chat
+
 
 // Clear Command
 client.on('message', async (message) => {
@@ -146,8 +142,7 @@ client.on('message', async (message) => {
       
     }
   });
-
-client.on('message', async message => {
+  client.on('message', async message => {
     if(message.author.bot) return;
     if(message.content.indexOf(prefix) !== 0) return;
 
@@ -213,24 +208,32 @@ client.on('messageReactionAdd', async (reaction, user) => {
                 {
                     id: ("849503393806549033"),
                     allow: ["SEND_MESSAGES", "VIEW_CHANNEL"]
-                }
+                },
+               
+
+
             ],
             
         }).then(async channel => {
             channel.send(`<@${user.id}> Welcome! Our Support Team Will be with you shortly!`, new Discord.MessageEmbed().setTitle("Welcome to your ticket!").setDescription("We will be with you shortly").setColor("03a5fc"))
-            channel.send(`Welcome!`)
+            
             
             
             
             
         })
+        
     }
     
 });
+
 
 //load the transcript module
 const transcript = require("./transcript")
 transcript(client, "-transcript", 500)  
 //transcript(client, "CMD", "MAXIMUM msgs") //minimum = 100 
+
+
+
 
 client.login(token);
