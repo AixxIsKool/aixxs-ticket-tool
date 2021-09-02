@@ -40,6 +40,10 @@ client.on('message', message =>{
         client.commands.get('warn').execute(message, args);
         else if(command === 'ticket')
         client.commands.get('ticket').execute(message, args);
+        else if(command === 'add')
+        client.commands.get('add').execute(message, args);
+        else if(command === 'remove')
+        client.commands.get('remove').execute(message, args);
     
 });
 client.on("message", message => {

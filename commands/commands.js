@@ -22,6 +22,8 @@ message.channel.send(new Discord.MessageEmbed().setTitle("Ticket Bot Commands").
  **-delete** (Deletes the ticket, LAISON+ USE ONLY UNLESS DIRECTED OTHERWISE!)
  **-clear** (Clears 1-100 messages)
  **-transcript** (Sends a Transcript to the  #transcript channel.)
+ **-add** (Add's someone to a ticket)
+ **-remove** (Remove's someone from a ticket.)
  ` ) .setFooter(`AixX's Ticket System.
 All Lefts and Rights reserved`)
  .setColor("03a5fc"));
