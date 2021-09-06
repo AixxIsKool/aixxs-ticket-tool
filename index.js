@@ -44,7 +44,10 @@ client.on('message', message =>{
         client.commands.get('add').execute(message, args);
         else if(command === 'remove')
         client.commands.get('remove').execute(message, args);
-    
+        else if(command === 'credits')
+        client.commands.get('credits').execute(message, args);
+        
+       
 });
 client.on("message", message => {
     if(message.member.hasPermission(['ADMINISTRATOR']))
@@ -179,7 +182,7 @@ client.on('message', async (message) => {
         setTimeout(function(){ 
             message.channel.delete()
          }, 5000);
-         message.guild.channels.cache.get("871792121269612584").send(new Discord.MessageEmbed().setTitle(`${message.author.tag} has used the delete command. Channel has been deleted.`).setColor("ff0400"))
+         message.guild.channels.cache.get("871792121269612584").send(new Discord.MessageEmbed().setTitle(`${message.author.tag} has used the delete command. ${message.channel.name} has been deleted.`).setColor("ff0400"))
     }
 });
 

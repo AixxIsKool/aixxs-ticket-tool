@@ -1,5 +1,12 @@
 const Discord = require("discord.js")
 const { MessageAttachment, MessageEmbed } = require(`discord.js`);
+const description = {
+    name: "remove",
+    filename: "remove.js",
+    version: "0.01"
+  }
+  //log that it got loaded on bot start
+  console.log(` :: 🔳 Module: ${description.name} | Loaded version ${description.version} from ("${description.filename}")`)
 module.exports = {
     name: 'remove',
     description: `remove's a member from a ticket!`,
